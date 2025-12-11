@@ -46,7 +46,6 @@ int main(void) {
         }
         
     }
-    //display(&st);
     while (st.top > -1) {
         printf("%c", pop(&st)); 
     }
@@ -77,7 +76,6 @@ void push(struct Stack* st, int v) {
     else {
         st -> top += 1;
         st -> arr[st -> top] = v;
-        //printf("Pushed %d to stack\n", v); 
     }
 }
 
@@ -87,7 +85,6 @@ char pop(struct Stack* st) {
     }
     else {
         char x = (st -> arr[st -> top]);
-        //printf("Popped %d\n", x);
         st -> top -= 1; 
         return x;
     }

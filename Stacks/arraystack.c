@@ -32,6 +32,7 @@ int main(void) {
     push(&st, 6); // We expect an overflow 
     display(&st);
     free(st.arr);
+    return 0;
 }
 
 void push(struct Stack* st, int v) {

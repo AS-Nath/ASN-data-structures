@@ -15,10 +15,12 @@ void display(Deque* dq) {
     }
     else {
         printf("Deque Elements (front to back) : "); 
-        for (int i = dq -> front; i <= dq -> rear; i++) {
-            printf("%d ", dq -> arr[i]); 
+        int i = dq -> front; 
+        while (i != dq -> rear) {
+            printf("%d ", dq -> arr[i]);
+            i = (i + 1) % (dq -> n); 
         }
-        printf("\n");
+        printf("%d\n", dq -> arr[i]);
     } 
 }
 
@@ -29,8 +31,18 @@ void push_front(Deque* dq, int v) {
         dq -> arr[dq -> front] = v;
         printf("Pushed %d to Deque front!\n", v);
     } 
+    else if (dq -> front - dq -> rear == 1) {
+        printf("Deque full.\n"); 
+    }
     else if (dq -> front == 0) {
-        printf("Deque full from front end.\n"); 
+        if (dq -> rear == dq -> n - 1) {
+            printf("Deque full.\n");
+        } 
+        else {
+            dq -> front = (dq -> n) - 1;
+            dq -> arr[dq -> front] = v; 
+            printf("Pushed %d to Deque front!\n", v); 
+        }
     }
     else {
         dq -> front -= 1;
@@ -53,7 +65,7 @@ int pop_front(Deque* dq) {
     else {
         printf("Popped %d from Deque front.\n", dq -> arr[dq -> front]);
         int x = dq -> arr[dq -> front]; 
-        dq -> front += 1;
+        dq -> front = (dq -> front + 1) % dq -> n;
         return x; 
     }
     return -1;
@@ -66,10 +78,13 @@ void push_back(Deque* dq, int v) {
         dq -> arr[dq -> rear] = v;
         printf("Pushed %d to Deque rear!\n", v);
     }
-    else if (dq -> rear == (dq -> n) - 1) {
-        printf("Deque full from rear end.\n"); 
+    else if (dq -> front - (dq -> rear) == 1 || dq -> rear == dq -> n - 1 && dq -> front == 0) {
+        printf("Deque full.\n"); 
     }
     else {
+        if (dq -> rear == dq -> n - 1) {
+            dq -> rear = -1; 
+        }
         dq -> rear += 1;
         dq -> arr[dq -> rear] = v;
         printf("Pushed %d to Deque rear!\n", v);
@@ -87,9 +102,19 @@ int pop_back(Deque* dq) {
         dq -> front = -1;
         return x; 
     }
+    else if (dq -> rear - dq -> front == 1) {
+        printf("Popped %d from Deque rear.\n", dq -> arr[dq -> rear]); 
+        int x = dq -> arr[dq -> rear];
+        dq -> rear = -1;
+        dq -> front = -1;  
+        return x;
+    }
     else {
         printf("Popped %d from Deque rear.\n", dq -> arr[dq -> rear]); 
         int x = dq -> arr[dq -> rear];
+        if (dq -> rear == 0) {
+            dq -> rear = dq -> n; 
+        }
         dq -> rear -= 1; 
         return x;
     }

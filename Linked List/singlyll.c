@@ -17,8 +17,6 @@ void display(struct Node* head) {
     printf("\n"); 
 }
 
-// Deletion, Searching, Reversal 
-
 void delete(struct Node** head, int position) {
     struct Node* travNode = *head;
     if (*head == NULL) {
@@ -35,9 +33,47 @@ void delete(struct Node** head, int position) {
             travNode = travNode -> next;
             c += 1;
         }
+        if (travNode -> next == NULL) {
+            printf("Delete position out of bounds.\n"); 
+        }
         struct Node* delNode = travNode -> next; 
         travNode -> next = delNode -> next; 
         free(delNode);
+    }
+}
+
+bool search(struct Node** head, int target) {
+    if (*head == NULL) {
+        printf("Linked List is empty. Nothing to search.\n"); 
+        return false; 
+    }
+    else {
+        struct Node* travNode = *head;
+        while (travNode != NULL) {
+            if (travNode -> data == target) {
+                return true; 
+            }
+            travNode = travNode -> next; 
+        }
+        return false; 
+    }
+}
+
+void reverse(struct Node** head) {
+    if (*head == NULL) {
+        printf("Linked List is empty.\n"); 
+    } 
+    else {
+        struct Node* prev = NULL;
+        struct Node* travNode = *head;
+        struct Node* travNext = NULL; 
+        while (travNode != NULL) {
+            travNext = travNode -> next; 
+            travNode -> next = prev;
+            prev = travNode; 
+            travNode = travNext; 
+        }
+        *head = prev; 
     }
 }
 
@@ -75,5 +111,7 @@ int main(void) {
     insert(&head, 7, 1); 
     delete(&head, 2); 
     display(head); 
+    reverse(&head);
+    display(head);
     return 0; 
 }

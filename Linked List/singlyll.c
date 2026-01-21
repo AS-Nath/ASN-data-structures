@@ -17,6 +17,30 @@ void display(struct Node* head) {
     printf("\n"); 
 }
 
+// Deletion, Searching, Reversal 
+
+void delete(struct Node** head, int position) {
+    struct Node* travNode = *head;
+    if (*head == NULL) {
+        printf("Linked List is empty.\n"); 
+    }
+    else if (position == 1) {
+        struct Node* newhead = travNode -> next; 
+        *head = newhead; 
+        free(travNode);
+    }
+    else {
+        int c = 1; 
+        while (travNode -> next != NULL && c != position - 1) {
+            travNode = travNode -> next;
+            c += 1;
+        }
+        struct Node* delNode = travNode -> next; 
+        travNode -> next = delNode -> next; 
+        free(delNode);
+    }
+}
+
 void insert(struct Node** head, int n, int position) {
     struct Node* newnode = (struct Node *)malloc(sizeof(struct Node)); 
     newnode -> data = n;
@@ -49,6 +73,7 @@ int main(void) {
     insert(&head, 5, 5); 
     insert(&head, 6, 2); 
     insert(&head, 7, 1); 
+    delete(&head, 2); 
     display(head); 
     return 0; 
 }

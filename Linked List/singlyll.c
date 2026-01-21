@@ -34,11 +34,15 @@ void delete(struct Node** head, int position) {
             c += 1;
         }
         if (travNode -> next == NULL) {
-            printf("Delete position out of bounds.\n"); 
+            printf("Delete position out of bounds.\n");
         }
-        struct Node* delNode = travNode -> next; 
-        travNode -> next = delNode -> next; 
-        free(delNode);
+        else {
+            struct Node* delNode = travNode -> next; 
+            int v = delNode -> data;
+            travNode -> next = delNode -> next; 
+            free(delNode);
+            printf("Deleted %d from Linked List!\n", v); 
+        }
     }
 }
 
@@ -102,16 +106,53 @@ void insert(struct Node** head, int n, int position) {
 
 int main(void) {
     struct Node* head = NULL; 
-    insert(&head, 1, 1);
-    insert(&head, 2, 2);
-    insert(&head, 3, 3);
-    insert(&head, 4, 4);
-    insert(&head, 5, 5); 
-    insert(&head, 6, 2); 
-    insert(&head, 7, 1); 
-    delete(&head, 2); 
-    display(head); 
-    reverse(&head);
-    display(head);
+    while (true) {
+        printf("Enter 1 to insert in the Linked List.\n");
+        printf("Enter 2 to delete from the Linked List.\n"); 
+        printf("Enter 3 to search the Linked List for some element.\n"); 
+        printf("Enter 4 to reverse the Linked List.\n");
+        printf("Enter 5 to display the Linked List.\n"); 
+        printf("Enter any other integer to exit.\n"); 
+        int c;
+        scanf("%d", &c);
+        switch (c) {
+            case 1 : 
+                printf("Enter value to insert : "); 
+                int v;
+                scanf("%d", &v); 
+                printf("Enter position (1-indexed) to insert at : "); 
+                int pos;
+                scanf("%d", &pos); 
+                insert(&head, v, pos); 
+                printf("Inserted %d at position %d!\n", v, pos); 
+                break;
+            case 2 : 
+                printf("Enter index to delete from : "); 
+                int index;
+                scanf("%d", &index);
+                delete(&head, index);
+                break;
+            case 3 : 
+                printf("Enter search target : ");
+                int target;
+                scanf("%d", &target); 
+                if (search(&head, target)) {
+                    printf("%d was found!\n", target);
+                }
+                else {
+                    printf("%d was not found!\n", target); 
+                }
+                break;
+            case 4 : 
+                reverse(&head);
+                printf("Linked List was reversed!\n"); 
+                break;
+            case 5 : 
+                display(head);
+                break;
+            default : 
+                return 0; 
+        }  
+    }    
     return 0; 
 }
